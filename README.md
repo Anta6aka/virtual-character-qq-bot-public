@@ -71,6 +71,16 @@ python static_check.py
 
 `tests/run_tests.py` 使用隔离临时目录，不读取生产数据库。
 
+
+## 已知限制
+
+- 运维脚本以 Windows 为主；`connection_guard.py` 的“账号进程不存在”恢复分支会调用
+  部署方自己的 `start-qq.ps1`，本仓库不包含该启动器（路径和账号因部署而异），
+  请自行提供或关闭该分支。
+- `restore_backup.py` 假设仓库根目录下存在 `AstrBot/`、`backups/` 等目录结构，
+  迁移到其他布局时需要调整路径。
+- CI 只运行静态检查；功能测试请在本地运行 `python tests/run_tests.py`。
+
 ## 隐私与安全
 
 - 不要提交 `cmd_config.json`、`relationship.json`、`connection_guard.json`、
