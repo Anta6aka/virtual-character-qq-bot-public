@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.1 — configuration validation and plugin settings
+
+- Added `validate_config.py` with tests for private configs and examples.
+- Added `docs/CONFIG.md` and wired validation into CI.
+- Added `_conf_schema.json` for the LTM relationship section and sticker
+  probability/interval settings, with backwards-compatible defaults.
+
 ## 0.2.0 — Docker demo
 
 - Added a Docker Compose stack based on the official NapCat `astrbot` mode.

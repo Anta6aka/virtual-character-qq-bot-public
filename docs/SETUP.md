@@ -73,6 +73,7 @@ reachable on localhost.
 ## 8. Run checks
 
 ```bash
+python validate_config.py
 python static_check.py
 python tests/run_tests.py
 ```

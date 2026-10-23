@@ -152,8 +152,12 @@ def importance(text: str) -> float:
 
 
 class LongTermMemoryPlugin(Star):
-    def __init__(self, context: Context):
+    def __init__(self, context: Context, config=None):
         super().__init__(context)
+        try:
+            self._plugin_config = dict(config or {})
+        except Exception:  # noqa: BLE001 - config shape must never block loading
+            self._plugin_config = {}
         DATA_DIR.mkdir(parents=True, exist_ok=True)
         self._init_db()
         self.episodes = EpisodeStore(DB_PATH)
@@ -188,6 +192,9 @@ class LongTermMemoryPlugin(Star):
             remote = (config.get("provider_ltm_settings") or {}).get("relationship")
         except Exception as exc:  # noqa: BLE001 - config errors must not break loading
             error = f"config read failed: {exc}"
+        plugin_remote = self._plugin_config.get("relationship") if isinstance(self._plugin_config, dict) else None
+        if isinstance(plugin_remote, dict):
+            remote = {**(remote or {}), **plugin_remote}
         if relationship_config is None:
             return {"enable": False}, error or "relationship config module unavailable"
         private, private_error = relationship_config.load_private_settings(RELATIONSHIP_CONFIG_PATH)

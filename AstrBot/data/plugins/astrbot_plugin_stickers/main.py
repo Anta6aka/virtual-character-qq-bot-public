@@ -145,8 +145,21 @@ class SendReceiptProxy:
 
 
 class StickerPlugin(Star):
-    def __init__(self, context: Context):
+    def __init__(self, context: Context, config=None):
         super().__init__(context)
+        try:
+            settings = dict(config or {})
+        except Exception:  # noqa: BLE001 - config shape must never block loading
+            settings = {}
+        self.enabled = settings.get("enabled", True) is not False
+        try:
+            self.probability = min(1.0, max(0.0, float(settings.get("probability", PROBABILITY))))
+        except (TypeError, ValueError):
+            self.probability = PROBABILITY
+        try:
+            self.min_interval = max(0, int(settings.get("min_interval_seconds", MIN_INTERVAL)))
+        except (TypeError, ValueError):
+            self.min_interval = MIN_INTERVAL
         self._last: dict[str, float] = defaultdict(float)
         self._by_category: dict[str, list[str]] = defaultdict(list)
         self._groups_file = load_groups(GROUPS_PATH)
@@ -239,6 +252,8 @@ class StickerPlugin(Star):
     @filter.on_llm_request()
     async def describe_capability(self, event: AstrMessageEvent, request: ProviderRequest) -> None:
         """Offer reviewed assets before generation; tool selection never sends immediately."""
+        if not self.enabled:
+            return
         if str(event.get_group_id() or "") not in self._allowed_groups():
             state = "当前会话未启用本地表情附图，不能承诺在这里发送表情。"
         elif 1 <= time.localtime().tm_hour < 8:
@@ -253,8 +268,8 @@ class StickerPlugin(Star):
                 paths={path for category,items in self._by_category.items() if category!=SENSITIVE_CATEGORY
                        and category!='亲密' for path in items if Path(path).is_file()}
                 eligible=(not any(word in (event.message_str or '') for word in DISTRESS)
-                    and time.time()-self._last[event.unified_msg_origin]>=MIN_INTERVAL
-                    and random.random()<=PROBABILITY)
+                    and time.time()-self._last[event.unified_msg_origin]>=self.min_interval
+                    and random.random()<=self.probability)
                 offer={self._digest(path)[:16]:path
                        for path in sorted(paths)[:30]} if eligible else {}
                 event.set_extra('sticker_offer',offer)
@@ -320,7 +335,7 @@ class StickerPlugin(Star):
         key=event.unified_msg_origin
         now=time.time()
         if (sticker_id not in offer or str(event.get_group_id() or '') not in self._allowed_groups()
-                or 1<=time.localtime().tm_hour<8 or now-self._last[key]<MIN_INTERVAL):
+                or 1<=time.localtime().tm_hour<8 or now-self._last[key]<self.min_interval):
             return '本轮此表情不可用，不要声称已经发送。'
         if event.get_extra('sticker_selected'):
             return '本轮已经选择了表情，请直接完成正文，不重复选图。'
@@ -384,6 +399,8 @@ class StickerPlugin(Star):
 
     @filter.on_decorating_result()
     async def attach_sticker(self, event: AstrMessageEvent) -> None:
+        if not self.enabled:
+            return
         if 1 <= time.localtime().tm_hour < 8:
             return
         if str(event.get_group_id() or "") not in self._allowed_groups():
@@ -398,7 +415,7 @@ class StickerPlugin(Star):
         # With a model-visible catalog, an unselected asset means the model chose no image.
         if offer is not None and not selected:
             return
-        if offer is None and random.random() > PROBABILITY:
+        if offer is None and random.random() > self.probability:
             return
 
         key = event.unified_msg_origin

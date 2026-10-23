@@ -1,0 +1,26 @@
+{
+  "relationship": {
+    "type": "object",
+    "description": "可选的关系状态配置（也可用私有 relationship.json 覆盖）",
+    "hint": "关闭时只保留记忆功能；角色 ID 用于区分不同角色。私有文件优先级低于这里的显式配置。",
+    "items": {
+      "enable": {
+        "type": "bool",
+        "description": "启用关系状态",
+        "default": false
+      },
+      "character_id": {
+        "type": "string",
+        "description": "稳定角色 ID",
+        "default": "char_a",
+        "hint": "只使用字母、数字、下划线和短横线。"
+      },
+      "max_visible": {
+        "type": "int",
+        "description": "可复用记忆上限",
+        "default": 3,
+        "hint": "0-10；越大注入越多。"
+      }
+    }
+  }
+}

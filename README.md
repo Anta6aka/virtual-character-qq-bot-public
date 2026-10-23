@@ -92,6 +92,7 @@ cp .env.example .env   # 修改 NAPCAT_WEBUI_TOKEN
 - [架构说明](docs/ARCHITECTURE.md)
 - [部署步骤](docs/SETUP.md)
 - [关系系统设计概览](docs/RELATIONSHIP.md)
+- [配置参考](docs/CONFIG.md)
 - [更新日志](CHANGELOG.md)
 - [公开路线图与差距分析](docs/ROADMAP.md)
 
@@ -101,6 +102,7 @@ cp .env.example .env   # 修改 NAPCAT_WEBUI_TOKEN
 ## 测试
 
 ```bash
+python validate_config.py
 python tests/run_tests.py
 python static_check.py
 ```
@@ -115,7 +117,7 @@ python static_check.py
   请自行提供或关闭该分支。
 - `restore_backup.py` 假设仓库根目录下存在 `AstrBot/`、`backups/` 等目录结构，
   迁移到其他布局时需要调整路径。
-- CI 只运行静态检查；功能测试请在本地运行 `python tests/run_tests.py`。
+- CI 运行静态检查、配置校验和 Linux/Windows 测试矩阵；功能测试也可在本地运行 `python tests/run_tests.py`。
 
 ## 隐私与安全
 

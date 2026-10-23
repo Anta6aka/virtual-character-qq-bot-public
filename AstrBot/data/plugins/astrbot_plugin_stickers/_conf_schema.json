@@ -1,0 +1,19 @@
+{
+  "enabled": {
+    "type": "bool",
+    "description": "启用本地表情",
+    "default": true
+  },
+  "probability": {
+    "type": "float",
+    "description": "每轮生成候选目录的概率",
+    "default": 0.18,
+    "hint": "0-1；实际发送率还取决于模型是否选择。"
+  },
+  "min_interval_seconds": {
+    "type": "int",
+    "description": "同一会话的最小发送间隔（秒）",
+    "default": 180,
+    "hint": "0 表示不限制。"
+  }
+}
