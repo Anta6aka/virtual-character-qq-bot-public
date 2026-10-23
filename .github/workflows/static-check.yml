@@ -1,4 +1,4 @@
-﻿name: static-checks
+name: static-checks
 
 on:
   push:
@@ -17,3 +17,18 @@ jobs:
         run: python static_check.py
       - name: Validate compose file
         run: docker compose -f compose.yml config --quiet
+
+  tests:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - name: Run isolated tests
+        run: python tests/run_tests.py
