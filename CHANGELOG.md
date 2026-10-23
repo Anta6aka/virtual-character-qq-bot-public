@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.1 — configurable relationship parameters
+
+- Added optional `relationship_params.json` overrides with validation and
+  fail-closed behaviour.
+- Added a focused test for override validation.
+- Documented the tuning path in the public setup and relationship docs.
+
 ## 0.1.0 — initial public release
 
 - Sanitized public snapshot of the AstrBot character bot plugin set.

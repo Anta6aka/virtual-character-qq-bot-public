@@ -33,6 +33,14 @@ Copy [relationship.example.json](../examples/relationship.example.json) to
 The file is the durable switch because AstrBot strips unknown keys from its
 global config. A corrupt file disables the feature without breaking dialogue.
 
+### Optional parameter overrides
+
+Copy [relationship_params.example.json](../examples/relationship_params.example.json)
+to `AstrBot/data/plugins/astrbot_plugin_ltm_fts/data/relationship_params.json`.
+Only known numeric keys are accepted; unknown keys, wrong types and unsafe
+ranges are rejected and the relationship feature fails closed. The defaults in
+`params.py` remain the public reference values.
+
 ## 6. Enable stickers (optional)
 
 - Put your own assets under `stickers/` at the repository root, or provide a

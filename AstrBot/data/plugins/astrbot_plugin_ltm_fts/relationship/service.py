@@ -17,6 +17,7 @@ import sqlite3
 import threading
 import time
 from dataclasses import dataclass, field
+from pathlib import Path
 from typing import Callable, Mapping
 
 from . import context, engine, params, visibility, accumulation
@@ -197,6 +198,17 @@ class RelationshipService:
         if config is not None and not config.enabled:
             self._ready = False
             self._error = "disabled"
+        try:
+            params.load_overrides(Path(db_path).parent / "relationship_params.json")
+        except Exception as error:  # noqa: BLE001 - fail closed, never block dialogue
+            self._ready = False
+            self._error = "invalid relationship_params.json: " + str(error)[:160]
+            if self._logger is not None:
+                try:
+                    self._logger.warning("[relationship] parameter overrides rejected: " + self._error)
+                except Exception:
+                    pass
+            return
 
     # ------------------------------------------------------------- lifecycle
     def _now(self) -> float:

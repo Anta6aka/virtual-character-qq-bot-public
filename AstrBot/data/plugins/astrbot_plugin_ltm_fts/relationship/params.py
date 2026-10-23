@@ -8,6 +8,8 @@ evaluation advantage.
 from __future__ import annotations
 
 from datetime import timedelta, timezone
+import json
+from pathlib import Path
 
 # Split into adjacent literals so the repository's anti-QQ-number static check
 # cannot mistake a hexadecimal digit run for an account id.
@@ -70,3 +72,55 @@ FAMILIARITY_PENDING_TTL_SECONDS = 900
 # evaluation accounting
 # Default extra dedicated model call per ordinary message (R-40): zero.
 DEFAULT_EXTRA_MODEL_CALLS_PER_MESSAGE = 0
+
+# --- optional local overrides -------------------------------------------------
+# A deployment may provide relationship_params.json next to memory.db.  Unknown
+# keys, non-numeric values and unsafe ranges are rejected; the service then
+# fails closed (dialogue keeps working).  Defaults above remain the source of
+# truth for the public code; overrides are for deployment tuning only.
+_OVERRIDE_KEYS = {
+    name for name, value in globals().items()
+    if name.isupper() and isinstance(value, (int, float)) and not isinstance(value, bool)
+}
+_NEGATIVE_KEYS = {"T_NORMAL_NEGATIVE", "T_STRONG_NEGATIVE"}
+_POSITIVE_KEYS = {"F_MAX", "T_MAX", "CLOSEST_CAPACITY", "NEGATIVE_DAY_RING",
+                  "FAMILIARITY_PENDING_TTL_SECONDS"}
+
+
+def apply_overrides(values):
+    """Apply a mapping of parameter overrides and return the count."""
+    if not isinstance(values, dict):
+        raise ValueError("relationship parameter overrides must be a JSON object")
+    applied = 0
+    for key, value in values.items():
+        if key not in _OVERRIDE_KEYS:
+            raise ValueError("unknown relationship parameter: " + str(key))
+        if isinstance(value, bool) or not isinstance(value, (int, float)):
+            raise ValueError("relationship parameter must be numeric: " + str(key))
+        default = globals()[key]
+        if isinstance(default, int) and not isinstance(value, int):
+            raise ValueError("relationship parameter must be an integer: " + str(key))
+        if isinstance(default, float):
+            value = float(value)
+        if key in _NEGATIVE_KEYS:
+            if value > 0:
+                raise ValueError("relationship parameter must be <= 0: " + str(key))
+        elif value < 0:
+            raise ValueError("relationship parameter must be >= 0: " + str(key))
+        if key in _POSITIVE_KEYS and value <= 0:
+            raise ValueError("relationship parameter must be > 0: " + str(key))
+        globals()[key] = value
+        applied += 1
+    return applied
+
+
+def load_overrides(path):
+    """Load relationship_params.json if present; missing file is a no-op."""
+    file = Path(path)
+    if not file.exists():
+        return 0
+    try:
+        data = json.loads(file.read_text(encoding="utf-8-sig"))
+    except (OSError, ValueError) as error:
+        raise ValueError("invalid relationship parameter file: " + type(error).__name__) from error
+    return apply_overrides(data)

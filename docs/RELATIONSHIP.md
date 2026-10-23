@@ -46,6 +46,13 @@ be reviewed for your own deployment.
 - Incidents and sensitive self-deprecation material are gated separately and
   are not reused as casual banter.
 
+## Tuning
+
+`relationship_params.json` next to `memory.db` can override the numeric
+defaults in `params.py`. Unknown keys, non-numeric values and unsafe ranges are
+rejected; the feature then fails closed. This is deployment tuning, not a
+public recommendation.
+
 ## Known limitations
 
 - Classification is deterministic and regex-based; it is not a semantic model.
