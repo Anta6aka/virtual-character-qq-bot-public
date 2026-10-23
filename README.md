@@ -73,6 +73,7 @@ CHANGELOG.md             版本记录
 - [部署步骤](docs/SETUP.md)
 - [关系系统设计概览](docs/RELATIONSHIP.md)
 - [更新日志](CHANGELOG.md)
+- [公开路线图与差距分析](docs/ROADMAP.md)
 
 `relationship/params.py` 里的数值是示例工程默认值，不是生产调参建议；请按自己的
 部署目标审阅和调整。公开文档只讲设计，不提供可照抄的加分表。
