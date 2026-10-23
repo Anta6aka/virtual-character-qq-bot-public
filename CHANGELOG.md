@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.0 — Docker demo
+
+- Added a Docker Compose stack based on the official NapCat `astrbot` mode.
+- Added `.env.example`, demo up/down scripts (sh + PowerShell).
+- Added a neutral demo character, placeholder sticker and demo instructions.
+- Added Compose validation to CI.
+
 ## 0.1.1 — configurable relationship parameters
 
 - Added optional `relationship_params.json` overrides with validation and

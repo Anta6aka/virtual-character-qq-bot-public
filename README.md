@@ -30,7 +30,27 @@ cleanup_temp.py          临时目录清理
 restore_backup.py        备份恢复
 requirements-local.txt   AstrBot 之外的本地依赖
 CHANGELOG.md             版本记录
+compose.yml              AstrBot + NapCat 一键体验
+scripts/                 demo 启停脚本（sh / PowerShell）
+examples/demo/           中性角色、占位表情和示例配置
 ```
+
+## Docker 快速体验（推荐）
+
+需要 Docker Desktop 或 Docker Engine + Compose v2。
+
+```bash
+cp .env.example .env   # 修改 NAPCAT_WEBUI_TOKEN
+./scripts/demo-up.sh   # Windows: .\scripts\demo-up.ps1
+```
+
+- AstrBot: <http://localhost:6185>，配置模型和人设
+- NapCat: <http://localhost:6099/webui>，扫码登录 QQ
+- 把 `examples/demo/sticker_groups.demo.json` 里的占位群号换成真实群号，然后
+  `docker compose restart astrbot`
+
+详细步骤和故障排查见 [demo 说明](examples/demo/README.md)。没有 Docker 的
+用户仍可按下面的手动步骤部署。
 
 ## 环境
 

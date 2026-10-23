@@ -1,0 +1,54 @@
+# AstrBot + NapCat one-command demo.
+# Based on the official NapCat "astrbot" mode compose:
+# https://github.com/NapNeko/NapCat-Docker/blob/main/compose/astrbot.yml
+#
+# Run: ./scripts/demo-up.sh   (Windows: .\scripts\demo-up.ps1)
+services:
+  astrbot:
+    image: ${ASTRBOT_IMAGE:-soulter/astrbot:latest}
+    container_name: character-bot-astrbot
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    environment:
+      - TZ=${TZ:-Asia/Shanghai}
+    ports:
+      - "${ASTRBOT_PORT:-6185}:6185"
+    volumes:
+      - ./runtime/astrbot:/AstrBot/data
+      - ./AstrBot/data/plugins:/AstrBot/data/plugins
+      - ./runtime/plugin-data:/AstrBot/data/plugins/astrbot_plugin_ltm_fts/data
+      - ./examples/demo/character_profile.json:/AstrBot/data/plugins/character_profile.json:ro
+      - ./examples/demo/sticker_groups.demo.json:/AstrBot/data/sticker_groups.json:ro
+      - ./examples/demo/stickers:/stickers:ro
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      - botnet
+
+  napcat:
+    image: ${NAPCAT_IMAGE:-mlikiowa/napcat-docker:latest}
+    container_name: character-bot-napcat
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    environment:
+      - NAPCAT_UID=${NAPCAT_UID:-1000}
+      - NAPCAT_GID=${NAPCAT_GID:-1000}
+      - MODE=astrbot
+      - WEBUI_TOKEN=${NAPCAT_WEBUI_TOKEN:-change-me}
+      - TZ=${TZ:-Asia/Shanghai}
+    ports:
+      - "${NAPCAT_WEBUI_PORT:-6099}:6099"
+    volumes:
+      - ./runtime/astrbot:/AstrBot/data
+      - ./runtime/napcat-config:/app/napcat/config
+      - ./runtime/ntqq:/app/.config/QQ
+    depends_on:
+      - astrbot
+    networks:
+      - botnet
+
+networks:
+  botnet:
+    driver: bridge

@@ -6,9 +6,11 @@
 *.log
 .env
 .env.*
+!.env.example
 .venv/
 temp/
 state/
 backups/
 /data/
 AstrBot/data/plugins/*/data/
+/runtime/

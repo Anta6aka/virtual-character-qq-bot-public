@@ -1,5 +1,19 @@
 # Setup
 
+## 0. Docker quick start (recommended)
+
+If Docker and Compose v2 are available:
+
+```bash
+cp .env.example .env
+./scripts/demo-up.sh   # Windows: .\scripts\demo-up.ps1
+```
+
+Then open AstrBot at <http://localhost:6185> and NapCat at
+<http://localhost:6099/webui>. The script mounts the neutral demo profile and a
+placeholder sticker. See [examples/demo/README.md](../examples/demo/README.md).
+The manual steps below remain the reference for non-Docker deployments.
+
 ## 1. Prerequisites
 
 - Python 3.12+
