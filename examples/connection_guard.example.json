@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "recipient": "10001",
+  "token_file": "state/napcat_webui_token.json",
+  "roles": [
+    {
+      "uin": "10001",
+      "name": "角色A",
+      "port": 6099,
+      "onebot_port": 6199,
+      "runtime": "AstrBot",
+      "group_id": "10001",
+      "dashboard_port": 6185,
+      "tts_port": 9880
+    },
+    {
+      "uin": "10002",
+      "name": "角色B",
+      "port": 6100,
+      "onebot_port": 6200,
+      "runtime": "AstrBot-b",
+      "group_id": "10001",
+      "dashboard_port": 6186,
+      "tts_port": 9881
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+name: astrbot_plugin_japanese_tts
+display_name: 日语台词语音
+desc: 为 GPT-SoVITS 注册独立适配器，只朗读中文翻译标记前的台词
+version: v0.3.0
+author: local
+repo: https://github.com/
+astrbot_version: ">=4.29.1"

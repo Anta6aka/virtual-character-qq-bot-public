@@ -1,0 +1,7 @@
+name: astrbot_plugin_dialogue_guard
+display_name: 双语回复保护
+desc: 最终回复格式校验、限时补译和匿名运行统计
+version: v0.2.0
+author: local
+repo: https://github.com/
+astrbot_version: ">=4.29.1"

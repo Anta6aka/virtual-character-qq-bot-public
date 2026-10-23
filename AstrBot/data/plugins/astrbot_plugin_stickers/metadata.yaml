@@ -1,0 +1,7 @@
+name: astrbot_plugin_stickers
+display_name: 本地表情包
+desc: 按回复语境低概率附本地表情，选中预留、私有群范围与素材摘要缓存
+version: v0.3.2
+author: local
+repo: https://github.com/
+astrbot_version: ">=4.17"

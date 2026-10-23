@@ -1,0 +1,8 @@
+*.py text eol=lf
+*.ps1 text eol=crlf
+*.md text eol=lf
+*.yaml text eol=lf
+# GPT-SoVITS rewrites these on every start with CRLF; keep worktree CRLF, repo LF.
+svc_v2_*.yaml text eol=crlf
+*.json text eol=lf
+*.gif binary

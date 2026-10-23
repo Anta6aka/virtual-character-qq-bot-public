@@ -1,0 +1,14 @@
+﻿__pycache__/
+*.py[cod]
+*.db
+*.db-wal
+*.db-shm
+*.log
+.env
+.env.*
+.venv/
+temp/
+state/
+backups/
+/data/
+AstrBot/data/plugins/*/data/

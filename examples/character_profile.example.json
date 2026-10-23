@@ -1,0 +1,7 @@
+{
+  "schema": 1,
+  "name": "角色A",
+  "aliases": ["角色A"],
+  "interest_pattern": "音乐|阅读|游戏|电影|旅行|运动|美食|推理",
+  "turn_guidance": "用角色自己的口吻简短接话；不必照顾完整场面。"
+}

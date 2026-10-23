@@ -1,0 +1,7 @@
+name: astrbot_plugin_ltm_fts
+display_name: 轻量长期记忆
+desc: 有来源的对话经历、跨场景关系与记忆边界、会话记忆和群聊参与节奏，无嵌入模型依赖
+version: v0.9.1
+author: local
+repo: https://github.com/
+astrbot_version: ">=4.17"

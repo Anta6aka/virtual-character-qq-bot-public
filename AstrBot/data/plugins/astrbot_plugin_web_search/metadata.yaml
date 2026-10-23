@@ -1,0 +1,7 @@
+name: astrbot_plugin_web_search
+display_name: 联网搜索
+desc: 基于 Bing 的轻量联网搜索工具，无需 API Key
+version: v0.2.0
+author: local
+repo: https://github.com/
+astrbot_version: ">=4.17"

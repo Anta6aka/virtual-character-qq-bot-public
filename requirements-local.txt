@@ -1,0 +1,3 @@
+# AstrBot: uv tool install astrbot==4.29.1 --with jieba==0.42.1 --with pypdf==6.21.1
+jieba==0.42.1
+pypdf==6.21.1
