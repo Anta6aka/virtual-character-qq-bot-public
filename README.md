@@ -1,5 +1,8 @@
 # Virtual Character QQ Bot (AstrBot plugin set)
 
+![static-checks](https://github.com/Anta6aka/virtual-character-qq-bot-public/actions/workflows/static-check.yml/badge.svg)
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+
 一套运行在 [AstrBot](https://github.com/AstrBotDevs/AstrBot) + NapCat 上的 QQ
 角色机器人插件与运维脚本。仓库只包含代码和示例配置，**不包含任何角色人设、
 聊天记录、表情素材、账号配置、数据库或日志**。
@@ -18,6 +21,7 @@
 
 ```
 AstrBot/data/plugins/    AstrBot 插件（LTM、关系、表情、TTS、守卫、搜索）
+docs/                    架构、部署和关系设计说明
 tests/                   隔离运行的单元测试
 examples/                示例配置（不含真实账号）
 connection_guard.py      双角色 NapCat/AstrBot 健康检查与恢复
@@ -25,6 +29,7 @@ static_check.py          AST/JSON/链接/隐私/密钥静态检查
 cleanup_temp.py          临时目录清理
 restore_backup.py        备份恢复
 requirements-local.txt   AstrBot 之外的本地依赖
+CHANGELOG.md             版本记录
 ```
 
 ## 环境
@@ -61,6 +66,16 @@ requirements-local.txt   AstrBot 之外的本地依赖
 - `character_profile.json`：`schema`、`name`、`aliases`、`interest_pattern`、
   `turn_guidance`。
 - `connection_guard.json`：角色 UIN、端口、运行目录、群号和 token 文件路径。
+
+## 文档
+
+- [架构说明](docs/ARCHITECTURE.md)
+- [部署步骤](docs/SETUP.md)
+- [关系系统设计概览](docs/RELATIONSHIP.md)
+- [更新日志](CHANGELOG.md)
+
+`relationship/params.py` 里的数值是示例工程默认值，不是生产调参建议；请按自己的
+部署目标审阅和调整。公开文档只讲设计，不提供可照抄的加分表。
 
 ## 测试
 
